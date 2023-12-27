@@ -1,9 +1,3 @@
-# Team Maroon
-
-## Team Members
-- Bharat (bhsnbada@memphis.edu)
-- Manisha (jpvuluri@memphis.edu)
-- Divya (dknkala@memphis.edu)
 - Sasidhar (symkpati@memphis.edu)
 
 ## How to Initialize and Run the App
