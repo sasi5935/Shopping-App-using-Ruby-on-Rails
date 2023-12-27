@@ -1,0 +1,26 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <% if @cushion.image.attached? %>
+        Image is attached
+        <%= image_tag @cushion.image, class: "img-fluid" %>
+      <% else %>
+        No image attached
+      <% end %>
+    </div>
+    <div class="col-md-6">
+      <h1>Edit Cushion</h1>
+
+      <%= bootstrap_form_with model: @cushion, local: true do |f| %>
+        <%= f.text_field :name %>
+        <%= f.file_field :image %>
+        <%= f.number_field :price %>
+        <%= f.text_field :shape %>
+        <%= f.text_field :emoji_type %>
+        <%= f.submit "Update Cushion", class: "btn btn-primary" %>
+      <% end %>
+
+      <%= link_to 'Back to list', home_path, class: "btn btn-secondary" %>
+    </div>
+  </div>
+</div>

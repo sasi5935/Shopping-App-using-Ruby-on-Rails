@@ -1,0 +1,49 @@
+<style>
+  p {
+    font-size: 1em;
+    line-height: 1.5em;
+    color: #333;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  .inline-form {
+    display: inline-block;
+    padding: 5px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #eee;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .inline-form:hover {
+    background-color: #ddd;
+  }
+
+  .inline-form button {
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: 1em;
+    color: inherit;
+    cursor: pointer;
+  }
+</style>
+
+<p>
+  <strong>Story:</strong>
+  <%= @story.content %>
+</p>
+
+<p>
+  <%= link_to 'Back', stories_path, class: "inline-form" %>
+
+  <% if @story.user == current_user %>
+    <%= button_to 'Edit', edit_story_path(@story), method: :get, class: "inline-form" %>
+    <%= button_to 'Delete', story_path(@story), method: :delete, data: { confirm: 'Are you sure?' }, form: { class: "inline-form" } %>
+  <% end %>
+</p>

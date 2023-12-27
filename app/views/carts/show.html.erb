@@ -1,0 +1,223 @@
+<style>
+  /* Base background and font styles */
+  body {
+    background-color: #f0f0f0; /* Neutral background color */
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333; /* Dark text for better readability */
+  }
+
+  /* Cart container styling */
+  .cart-container {
+    max-width: 600px;
+    margin: 20px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Grid layout for cart items */
+  .cart-item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 20px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ccc;
+  }
+
+  /* Image styling within cart items */
+  .cart-item img {
+    width: 80px;
+    height: 80px;
+    border-radius: 4px; /* Slightly rounded corners for images */
+  }
+
+  /* Cart item details styling */
+  .cart-item-details {
+    display: grid;
+    grid-template-rows: repeat(6, auto);
+    grid-gap: 4px;
+  }
+
+
+
+  /* Checkout button styling */
+  .checkout-btn {
+    background-color: #28a745; /* Green color for checkout button */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+
+  .checkout-btn:hover {
+    background-color: #218838; /* Darker green on hover */
+  }
+
+  /* Back button styling */
+  .back-btn {
+    background: none;
+    border: none;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-bottom: 20px;
+    color: #007bff; /* Use the primary button color for consistency */
+  }
+
+  /* Adjust color for better visibility */
+  h2, h3, p {
+    color: #444; /* Slightly lighter than black for softer contrast */
+  }
+
+  /* Styles for price and subtotal to stand out */
+  .price, .subtotal {
+    color: #d9534f; /* Red color for prices */
+    font-weight: bold; /* Make it bold */
+  }
+
+  .delete-btn {
+  background-color: #d9534f; /* Red color for delete button */
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.delete-btn:hover {
+  background-color: #c9302c; /* Darker red on hover */
+}
+
+.nav-bar {
+        background-color: #ecf0f1;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+}
+
+.nav-item {
+        margin: 0 15px;
+        color: #34495e;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 0;
+        transition: color 0.3s;
+}
+
+.nav-item:hover {
+        color: #2c3e50;
+        text-decoration: underline;
+}
+
+
+</style>
+
+<script>
+  function updateSubtotal(itemId, price) {
+    var quantityInput = document.getElementById('quantity_' + itemId);
+    var newSubtotal = quantityInput.value * price;
+    document.getElementById('subtotal_' + itemId).innerText = '$' + newSubtotal.toFixed(2);
+  }
+</script>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse"
+           id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <a class="nav-item">
+            <%= link_to 'Home', home_path, class: "nav-link #{active_class(home_path)} btn btn-link" %>
+            <%= link_to 'Favorite', favorite_cushions_path, class: "nav-link #{active_class(favorite_cushions_path)} btn btn-link" %>
+            <%= link_to 'Purchase history', purchase_histories_path, class: "nav-link #{active_class(purchase_histories_path)} btn btn-link" %>
+            <%= link_to 'Emoji Storytelling', emoji_storytelling_path, class: "nav-link #{active_class(emoji_storytelling_path)} btn btn-link" %>
+            <%= link_to 'Caption Battle', caption_battle_path, class: "nav-link #{active_class(caption_battle_path)} btn btn-link" %>
+            </a>
+        </ul>
+   
+        <ul class="navbar-nav">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Hi, #{current_user.email}", edit_user_registration_path,
+                          class: "nav-link #{active_class(edit_user_registration_path)} btn btn-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to cart_path, class: "nav-link #{active_class(cart_path)} btn btn-link" do %>
+                <i class="fa fa-shopping-cart"></i> <!-- This is the cart icon -->
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= button_to 'Sign Out', destroy_user_session_path,
+                          method: :delete, data: { turbo: false }, class: 'nav-link btn btn-link' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign In', new_user_session_path,
+                          class: "nav-link #{active_class(new_user_session_path)} btn btn-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign Up', new_user_registration_path,
+                          class: "nav-link #{active_class(new_user_registration_path)} btn btn-link" %>
+            </li>
+          <% end %>
+        </ul>
+   
+      </div>
+    </div>
+  </nav>
+
+
+
+<div class="cart-container">
+  <!--button class="back-btn" onclick="window.history.back();">&lt; Back</!--button-->
+  <% if session[:last_viewed_cushion_id].present? %>
+    <%= link_to '< Back', home_cushion_path(id: session[:last_viewed_cushion_id]), class: "back-btn" %>
+  <% else %>
+    <%= link_to '< Back', home_path, class: "back-btn" %>
+  <% end %>
+  <h2>My Cart</h2>
+
+  <% if @cart.cart_items.any? %>
+    <% @cart.cart_items.each do |item| %>
+      <div class="cart-item">
+        <% if item.cushion.image.present? %>
+          <%= image_tag(item.cushion.image, class: 'cushion-image') %>
+        <% else %>
+          <%= image_tag('fallback_image.png', class: 'cushion-image') %>
+        <% end %>
+
+        <div class="cart-item-details">
+          <h3><%= item.cushion.name %></h3>
+          <p>Size: <%= item.size %></p>
+          <p>Fabric: <%= item.fabric %></p>
+          <p>Firmness: <%= item.firmness %></p>
+          <p>Stuffing: <%= item.stuffing %></p>
+        
+          <p class="price">Price: <%= number_to_currency(item.cushion.price) %></p>
+          <p class="subtotal" id="subtotal_<%= item.id %>">Subtotal: <%= number_to_currency(item.quantity * item.cushion.price) %></p>
+          <%= button_to 'Delete', cart_item_path(item), method: :delete, class: 'delete-btn', data: { confirm: 'Are you sure?' } %>
+        </div>
+      </div>
+    <% end %>
+
+    
+    <%= button_to 'Proceed to Checkout', checkout_path, method: :get, class: 'btn btn-primary' %>
+  <% else %>
+    <p>Your cart is currently empty.</p>
+  <% end %>
+</div>

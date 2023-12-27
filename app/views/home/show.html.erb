@@ -1,0 +1,160 @@
+<h1>Emo-Tale Cushions</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emo-Tale Cushions</title>
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f4f4; /* Light grey background */
+        margin: 0;
+        padding: 0;
+        color: #333; /* Dark grey text */
+      }
+      .cushion-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive columns */
+        gap: 32px; /* Increased gap for more whitespace */
+        padding: 40px; /* Increased padding */
+        justify-items: center;
+      }
+      .cushion {
+        background-color: #ffffff; /* White background for each cushion */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for depth */
+        padding: 20px;
+        border-radius: 16px; /* Larger border-radius for rounded corners */
+        text-align: left; /* Align text to the left */
+        width: 100%;
+        box-sizing: border-box; /* Border-box for proper padding handling */
+      }
+      .cushion img {
+        width: 100%; /* Full width of the container */
+        height: auto;
+        border-radius: 16px; /* Consistent border-radius with the cushion */
+        margin-bottom: 16px; /* Space between image and text */
+      }
+      h1 {
+        text-align: center;
+        color: #1a1a1a; /* Slightly darker text for the title */
+        padding: 20px 0;
+      }
+      p {
+        margin: 4px 0; /* Reduced margin for a tighter look */
+      }
+      /* Additional styles for currency and other elements can be added here */
+      .nav-bar {
+        background-color: #fff;
+        display: flex;
+        justify-content: center; /* Center the navigation links */
+        padding: 10px 0;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+      }
+ 
+      .nav-item {
+        margin: 0 15px; /* Spacing between the nav items */
+        color: #333; /* Dark grey text to match the body */
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 0; /* Padding for clickable area */
+        transition: color 0.3s; /* Smooth transition for hover effect */
+      }
+ 
+      .nav-item:hover {
+        color: #555; /* Slightly lighter grey on hover */
+        text-decoration: underline; /* Underline on hover */
+      }
+      /* Add styles for the buttons */
+      .icon-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 10px; /* Add some space above the buttons */
+      }
+ 
+      .favorite-btn, .cart-btn {
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        padding: 5px;
+        font-size: 24px; /* Adjust size as needed */
+      }
+ 
+      /* You can add :hover styles here for when the buttons are hovered */
+      .favorite-btn:hover, .cart-btn:hover {
+        opacity: 0.7; /* Just an example of a hover effect */
+      }
+ 
+      .cushion {
+      /* other styles */
+       cursor: pointer; /* Makes the cursor appear as a pointer, indicating it's clickable */
+      }
+ 
+       .cushion:hover {
+       /* Define hover styles, such as a change in background color */
+        background-color: #e9e9e9;
+      }
+      
+ 
+    </style>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- ... your existing head content ... -->
+</head>
+<body>
+ 
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <%= link_to 'Home', home_path, class: "nav-link #{active_class(home_path)} btn btn-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to 'Favorite', favorite_cushions_path, class: "nav-link #{active_class(favorite_cushions_path)} btn btn-link" %>
+          </li>
+        </ul>
+   
+        <ul class="navbar-nav">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Hi, #{current_user.email}", edit_user_registration_path,
+                          class: "nav-link #{active_class(edit_user_registration_path)} btn btn-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to cart_path, class: "nav-link #{active_class(cart_path)} btn btn-link" do %>
+                <i class="fa fa-shopping-cart"></i> <!-- This is the cart icon -->
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= button_to 'Sign Out', destroy_user_session_path,
+                          method: :delete, data: { turbo: false }, class: 'nav-link btn btn-link' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign In', new_user_session_path,
+                          class: "nav-link #{active_class(new_user_session_path)} btn btn-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign Up', new_user_registration_path,
+                          class: "nav-link #{active_class(new_user_registration_path)} btn btn-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <%= render "filters" %>
+  <div class="cushions_container_main">
+    <%= render "cushions" %>
+  </div>
+</body>
+</html>

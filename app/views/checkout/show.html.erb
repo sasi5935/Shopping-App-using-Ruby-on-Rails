@@ -1,0 +1,157 @@
+<style>
+  body {
+    background-color: #FAFAFA; /* Updated to a very light grey for a modern, neutral backdrop */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* A more modern font stack */
+    color: #333; /* Ensuring text is primarily dark for readability */
+    line-height: 1.6; /* More line height for readability */
+  }
+
+  h1 {
+    text-align: center;
+    color: #2C3E50; /* A dark shade for heading */
+    padding-top: 20px;
+    margin-bottom: 30px; /* More space above and below the heading */
+  }
+
+  .item {
+    border: 1px solid #e0e0e0;
+    padding: 20px;
+    margin-bottom: 15px;
+    background: #FFFFFF; /* Pure white background for items */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05); /* Lighter shadow for a softer effect */
+    border-radius: 6px; /* Rounded corners for the item cards */
+  }
+
+  .item h2 {
+    font-size: 1.25rem; /* Larger font size for the item title */
+    color: #333;
+    margin-bottom: 10px;
+  }
+
+  .item p {
+    font-size: 1rem;
+    color: #666;
+    margin: 5px 0;
+  }
+
+  .back-button, .confirm-button {
+    font-size: 1rem;
+    padding: 10px 15px;
+    border-radius: 6px;
+    text-align: center;
+    display: inline-block;
+    margin-right: 10px; /* Space between buttons */
+    text-transform: uppercase; /* Capitalize text */
+    font-weight: bold; /* Make the button text bold */
+    transition: background-color 0.3s ease; /* Transition for hover effect */
+  }
+
+  .back-button {
+    background-color: #f0f0f0;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ccc;
+  }
+
+  .back-button:hover {
+    background-color: #e0e0e0;
+  }
+
+  .confirm-button {
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+
+  .confirm-button:hover {
+    background-color: #4cae4c;
+  }
+
+  .payment-info {
+    margin: 20px 0;
+    padding: 20px;
+    background: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+  }
+
+  .payment-info label {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .payment-info input[type="radio"] {
+    margin-right: 5px;
+  }
+
+  .order-summary {
+    padding: 20px;
+    background: #f7f7f7;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    margin-bottom: 20px;
+  }
+
+  .order-summary p {
+    font-weight: bold;
+  }
+</style>
+
+
+<h1>Order Summary</h1>
+<% if @cart.cart_items.any? %>
+  <%= button_to 'Back to Cart', cart_path, method: :get, class: "back-button" %>
+
+  <%= form_with url: confirm_checkout_path, method: :post, local: true do %>
+    <% @cart.cart_items.each do |cart_item| %>
+    <div class="item">
+      <h2><%= cart_item.cushion.name %> (Quantity: <%= cart_item.quantity %>)</h2>
+      <p>Price: <%= number_to_currency(cart_item.cushion.price) %></p>
+      <p>Size: <%= cart_item.size %></p>
+      <p>Fabric: <%= cart_item.fabric %></p>
+      <p>Firmness: <%= cart_item.firmness %></p>
+      <p>Stuffing: <%= cart_item.stuffing %></p>
+    </div>
+  <% end %>
+
+    <div class="payment-info">
+      <h3>Payment</h3>
+      <label>
+        <input type="radio" name="payment_method" value="wallet" checked>
+        Wallet/postpaid
+      </label>
+      <label>
+        <input type="radio" name="payment_method" value="card">
+        Credit/Debit/ATM card
+      </label>
+      <label>
+        <input type="radio" name="payment_method" value="netbanking">
+        Netbanking
+      </label>
+      <label>
+        <input type="radio" name="payment_method" value="emi">
+        EMI
+      </label>
+    </div>
+
+    <div class="order-summary">
+      <p>Item Subtotal: <%= number_to_currency(@cart.total_price) %></p>
+      <p>Estimated Tax: <%= number_to_currency(@cart.tax) %></p>
+      <p>Total: <%= number_to_currency(@cart.final_total) %></p>
+
+      <div class="address-field">
+        <label for="address">Shipping Address:</label>
+        <input type="text" id="address" name="address" class="address-input" placeholder="Enter your address">
+      </div>
+    </div>
+
+    
+
+    <%= submit_tag 'Confirm Order', class: 'confirm-button' %>
+  <% end %>
+<% else %>
+  <p>Your cart is empty.</p>
+  <%= link_to 'Continue Shopping', home_path, class: 'continue-shopping-link' %>
+<% end %>
+

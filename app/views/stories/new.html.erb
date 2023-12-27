@@ -1,0 +1,157 @@
+<style>
+/* Basic Styling */
+body {
+  background-color: #F0F2F5; /* Light greyish-blue for a soothing background */
+  color: #333; /* Dark grey for better readability */
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2em;
+  font-weight: bold;
+  color: #4A4A4A; /* Dark grey for headings */
+  margin-bottom: 20px;
+}
+
+/* Error Messages Styling */
+#error_explanation {
+  background-color: #FFC0CB; /* Soft pink for error background */
+  border: 1px solid #FFB6C1; /* Slightly darker pink for border */
+  border-radius: 4px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+#error_explanation h2 {
+  font-size: 1.2em;
+  color: #C71585; /* Dark pink for error titles */
+  margin-bottom: 10px;
+}
+
+#error_explanation ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#error_explanation ul li {
+  font-size: 0.9em;
+  color: #C71585; /* Dark pink for error list items */
+  margin-bottom: 5px;
+}
+
+/* Form Fields Styling */
+.field {
+  margin-bottom: 15px;
+}
+
+.field label {
+  display: block;
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #BDBDBD; /* Light grey for borders */
+  border-radius: 4px;
+  font-size: 1em;
+  color: #333; /* Dark text for readability */
+  background-color: #FFF; /* White background for fields */
+  box-sizing: border-box;
+}
+
+.field textarea {
+  height: 150px;
+}
+
+/* Buttons Styling */
+.actions input[type="submit"] {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #32CD32; /* Lime green for submit buttons */
+  border: none;
+  color: white;
+  font-size: 1em;
+  font-weight: bold;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.actions input[type="submit"]:hover {
+  background-color: #228B22; /* Darker green on hover */
+}
+
+/* Links Styling */
+a {
+  color: #008cba; /* Bright blue for links */
+  text-decoration: none;
+  font-size: 1em;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: #005f73; /* Darker blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .field input,
+  .field textarea,
+  .actions input[type="submit"],
+  a {
+    font-size: 0.9em; /* Slightly smaller font size for mobile devices */
+  }
+}
+
+/* Back Button Styling */
+.back-btn {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background-color: #D3D3D3; /* Light grey for back button */
+  color: #333;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+}
+
+.back-btn:hover {
+  background-color: #BEBEBE; /* Slightly darker grey on hover */
+}
+</style>
+
+<h1>New Story</h1>
+
+<%= link_to 'Back', stories_path, class: "back-btn" %>
+
+<%= form_with(model: @story, local: true) do |form| %>
+  <% if @story.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@story.errors.count, "error") %> prohibited this story from being saved:</h2>
+
+      <ul>
+      <% @story.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :title %> <%= form.text_field :title %> </div>
+
+  <div class="field">
+    <%= form.label :content %> <%= form.text_area :content %> </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

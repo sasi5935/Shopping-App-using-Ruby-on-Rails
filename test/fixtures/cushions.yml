@@ -1,0 +1,28 @@
+# == Schema Information
+#
+# Table name: cushions
+#
+#  id         :bigint           not null, primary key
+#  emoji_type :string
+#  image_url  :string
+#  name       :string
+#  price      :decimal(, )
+#  shape      :string
+#  stock      :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#
+
+one:
+  name: MyString
+  price: 9.99
+  shape: MyString
+  emoji_type: MyString
+  image_url: MyString
+
+two:
+  name: MyString
+  price: 9.99
+  shape: MyString
+  emoji_type: MyString
+  image_url: MyString

@@ -1,0 +1,7 @@
+// app/views/comments/create.js.erb
+<% if @comment.persisted? %>
+  var newComment = $("<p class='comment' id='comment-<%= j @comment.id %>'><%= j @comment.body %> - <%= j @comment.user.email %></p>");
+  $("#comments").append(newComment);
+<% else %>
+  // Handle error, such as displaying a message to the user
+<% end %>

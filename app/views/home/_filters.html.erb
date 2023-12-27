@@ -1,0 +1,31 @@
+<div class="filter_container">
+    <button class="filter_button" onclick="toggleFilter()">Filter</button>
+    <div class="filters_container_wrapper hidden">
+        <ul>
+            <li clss="filter_list" onclick="showFilterOptios('all_shapes_options')">
+                <span class="filter_title" >Shape</span>
+                <div class="filter_options all_shapes all_shapes_options shape hidden">
+                    <% all_shapes&.each do |shape| %>
+                        <div class="filter_to_apply shape" onclick="applyFilter(this,'shape','<%= shape %>')"><%= shape&.humanize %></div>
+                    <% end %>
+                </div>
+            </li>
+            <li clss="filter_list" onclick="showFilterOptios('prices_options_list')">
+                <span class="filter_title" >Price</span>
+                <div class="filter_options prices_options_list price hidden">
+                    <div class="filter_to_apply price" onclick="applyFilter(this,'price','high')">High to low</div>
+                    <div class="filter_to_apply price" onclick="applyFilter(this,'price','low')">Low to low</div>
+                </div>
+            </li>
+            <li clss="filter_list" onclick="showFilterOptios('types_options_list')">
+                <span class="filter_title" >Type</span>
+                <div class="filter_options types_options_list hidden emoji_type">
+                    <% all_emoji_types&.each do |emoji_type| %>
+                        <div class="filter_to_apply emoji_type" onclick="applyFilter(this,'emoji_type','<%= emoji_type %>')"><%= emoji_type&.humanize %></div>
+                    <% end %>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<%=javascript_include_tag "filters" %>

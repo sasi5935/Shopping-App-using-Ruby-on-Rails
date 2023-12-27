@@ -1,0 +1,71 @@
+<style>
+  body {
+    background-color: #f4f4f4; /* Neutral light grey background for a soft look */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Modern font choice */
+    margin: 0;
+    padding: 20px;
+    color: #333; /* Dark grey text for better readability */
+  }
+
+  .order-success {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffffff; /* White background for the success message */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    margin-top: 50px; /* Adds space at the top of the message */
+  }
+
+  .continue-shopping-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    background-color: #5cb85c; /* A shade of green for a 'continue' button */
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Adds a shadow for a 3D effect */
+  }
+
+  .continue-shopping-link:hover {
+    background-color: #4cae4c; /* A slightly darker green for the hover state */
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); /* Enhances the shadow on hover */
+  }
+
+  /* Additional style resets for a clean look */
+  h1, h2, h3, p {
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Centering the content in a flex container */
+  .centered-flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh; /* Ensures the content is vertically centered */
+  }
+
+  /* Styling the main content area */
+  .content {
+    padding: 40px;
+    background-color: #ffffff; /* White background for content */
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Maximum width for the content area */
+    margin: auto; /* Centers the content area */
+  }
+</style>
+
+
+
+
+<div class="order-success">
+  <h1>Order Placed Successfully</h1>
+  <p>Your order has been confirmed and your cart is now empty.</p>
+  <!-- Additional details or order summary can be added here -->
+
+  <%= link_to 'Continue Shopping', home_path, class: 'continue-shopping-link' %>
+</div>
