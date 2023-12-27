@@ -1,0 +1,256 @@
+<style>
+    /* Base styles */
+    body {
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        background-color: #f5f5f5;
+        margin: 0;
+        padding: 20px;
+    }
+
+    /* Responsive Product detail container */
+    .cushion-detail {
+        max-width: 970px;
+        width: 100%;
+        background-color: #fff;
+        margin: 20px auto;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Responsive Product image styling */
+    .cushion-image {
+        width: 100%; /* Full width for better responsiveness */
+        max-width: 400px; /* Increased maximum size */
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    /* Product information styling */
+    h1 {
+        color: #2c3e50; /* Darker color for contrast */
+        font-size: 28px; /* Slightly larger for emphasis */
+        margin-bottom: 10px;
+    }
+
+    .price {
+        color: #16a085; /* Fresh color for price */
+        font-size: 20px; /* Larger size for visibility */
+        margin-bottom: 20px;
+    }
+
+    /* Customization options styling */
+    .customization-section {
+        text-align: center; /* Center alignment for better focus */
+        width: 100%;
+        margin-bottom: 20px;
+        color: #34495e; /* Darker shade for better readability */
+    }
+
+    /* Style for the customization labels */
+    label {
+        display: inline-block;
+        background-color: #ecf0f1;
+        padding: 10px 20px; /* Increased padding for a better touch area */
+        border: 2px solid #bdc3c7; /* Thicker border for prominence */
+        border-radius: 25px; /* Larger radius for a softer look */
+        cursor: pointer;
+        font-weight: bold; /* Bold font for clarity */
+        margin: 5px; /* Added margin for spacing */
+        transition: all 0.3s ease; /* Smooth transition for all states */
+    }
+
+    /* Hide default radio buttons */
+    input[type="radio"] {
+        display: none;
+    }
+
+    /* Highlight the selected label */
+    input[type="radio"]:checked + label {
+        background-color: #3498db;
+        color: white;
+        border-color: #2980b9;
+    }
+
+    /* Quantity selector styling */
+    .quantity-selector {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 20px;
+        color: #34495e;
+    }
+
+    .quantity-selector label {
+        margin-right: 10px;
+    }
+
+    .quantity-input {
+        width: 60px;
+        padding: 5px;
+        border: 2px solid #bdc3c7;
+        border-radius: 4px;
+        margin-right: 20px;
+    }
+
+    /* Responsive Add to Cart button styling */
+    .add-to-cart-btn {
+        padding: 15px 20px;
+        background-color: #e67e22;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 18px;
+        text-transform: uppercase;
+        width: 100%;
+        margin-top: 20px;
+        transition: background-color 0.3s ease;
+    }
+
+    .add-to-cart-btn:hover {
+        background-color: #d35400;
+    }
+
+    .nav-bar {
+        background-color: #ecf0f1;
+        display: flex;
+        justify-content: center;
+        padding: 10px 0;
+        box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+    }
+
+    .nav-item {
+        margin: 0 15px;
+        color: #34495e;
+        text-decoration: none;
+        font-size: 16px;
+        padding: 5px 0;
+        transition: color 0.3s;
+    }
+
+    .nav-item:hover {
+        color: #2c3e50;
+        text-decoration: underline;
+    }
+</style>
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <%= link_to 'Home', home_path, class: "nav-link #{active_class(home_path)} btn btn-link" %>
+          </li>
+          
+        </ul>
+   
+        <ul class="navbar-nav">
+          <% if user_signed_in? %>
+            <li class="nav-item">
+              <%= link_to "Hi, #{current_user.email}", edit_user_registration_path,
+                          class: "nav-link #{active_class(edit_user_registration_path)} btn btn-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to cart_path, class: "nav-link #{active_class(cart_path)} btn btn-link" do %>
+                <i class="fa fa-shopping-cart"></i> <!-- This is the cart icon -->
+              <% end %>
+            </li>
+            <li class="nav-item">
+              <%= button_to 'Sign Out', destroy_user_session_path,
+                          method: :delete, data: { turbo: false }, class: 'nav-link btn btn-link' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to 'Sign In', new_user_session_path,
+                          class: "nav-link #{active_class(new_user_session_path)} btn btn-link" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to 'Sign Up', new_user_registration_path,
+                          class: "nav-link #{active_class(new_user_registration_path)} btn btn-link" %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </div>
+  </nav>
+    
+
+
+
+
+<!-- Back button to return to the previous page or home -->
+<a href="<%= home_path %>" class="back-link">&lt; Back</a>
+
+<!-- Product details section -->
+<div class="cushion-detail">
+  <%= image_tag @cushion.image, alt: @cushion.name, class: 'cushion-image' %>
+  <h1><%= @cushion.name %></h1>
+  <p class="price"><%= number_to_currency(@cushion.price) %></p>
+
+
+
+  <%= form_with scope: :cart_item, url: cart_items_path, method: :post do |form| %>
+    <%= form.hidden_field :cushion_id, value: @cushion.id %>
+  
+
+    <div class="customization-section">
+      <h3>Size:</h3>
+      <% ['Small', 'Medium', 'Large'].each do |size| %>
+        <%= form.radio_button :size, size.downcase, id: "size_#{size.downcase}" %>
+        <%= form.label :size, size, for: "size_#{size.downcase}" %>
+      <% end %>
+    </div>
+    
+    <!-- Fabric selection -->
+    <div class="customization-section">
+      <h3>Fabric:</h3>
+      <% ['Chenille', 'Fleece', 'Satin'].each do |fabric| %>
+        <%= form.radio_button :fabric, fabric.downcase, id: "fabric_#{fabric.downcase}" %>
+        <%= form.label :fabric, fabric, for: "fabric_#{fabric.downcase}" %>
+      <% end %>
+    </div>
+    
+    <!-- Firmness selection -->
+    <div class="customization-section">
+      <h3>Firmness:</h3>
+      <% ['Soft', 'Firm'].each do |firmness| %>
+        <%= form.radio_button :firmness, firmness.downcase, id: "firmness_#{firmness.downcase}" %>
+        <%= form.label :firmness, firmness, for: "firmness_#{firmness.downcase}" %>
+      <% end %>
+    </div>
+    
+    <!-- Stuffing selection -->
+    <div class="customization-section">
+      <h3>Stuffing:</h3>
+      <% ['Feather', 'Foam'].each do |stuffing| %>
+        <%= form.radio_button :stuffing, stuffing.downcase, id: "stuffing_#{stuffing.downcase}" %>
+        <%= form.label :stuffing, stuffing, for: "stuffing_#{stuffing.downcase}" %>
+      <% end %>
+    </div>
+
+    <!-- Quantity selector -->
+    <div class="quantity-selector">
+      <label for="quantity">Quantity:</label>
+      <%= form.number_field :quantity, value: 1, min: 1, class: 'quantity-input', id: 'quantity' %>
+    </div>
+    
+    <!-- Include other fields for cushion options like size, fabric, etc. -->
+
+    <%= form.submit "Add to Cart", class: 'add-to-cart-btn' %>
+  <% end %>
+
+</div>

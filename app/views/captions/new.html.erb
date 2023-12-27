@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Caption</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f7f7f7;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin: 10px 0 5px;
+    }
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      resize: vertical;
+    }
+    input[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 4px;
+      background-color: #5cb85c;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #4cae4c;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>New Caption</h1>
+  <%= form_for @caption do |f| %>
+    <div>
+      <%= f.label :content, 'Caption Text' %>
+      <%= f.text_area :content, rows: 4, class: 'form-control' %>
+    </div>
+    <div>
+      <%= f.submit 'Submit Caption', class: 'btn' %>
+    </div>
+  <% end %>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var submitButton = document.querySelector('input[type="submit"]');
+    submitButton.addEventListener('mouseover', function() {
+      submitButton.style.backgroundColor = '#449d44';
+    });
+    submitButton.addEventListener('mouseout', function() {
+      submitButton.style.backgroundColor = '#5cb85c';
+    });
+  });
+</script>
+
+</body>
+</html>

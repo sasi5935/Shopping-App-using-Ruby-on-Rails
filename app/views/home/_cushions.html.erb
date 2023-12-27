@@ -1,0 +1,14 @@
+<div class="cushion-list">
+    <% @cushions.each do |cushion| %>
+      <div class="cushion" onclick="window.location='<%= cushion_path(cushion) %>'">
+        <%= image_tag cushion.image, alt: cushion.name, class: 'cushion-image' %>
+        <h2><%= cushion.name %></h2>
+        <p class="price"><%= number_to_currency(cushion.price) %></p>
+        <p>Shape: <%= cushion.shape %></p>
+        <p>Type: <%= cushion.emoji_type %></p>
+        <div class="icon-container">
+            <button class="favorite-btn" onclick="addToFavorites('<%= cushion.id %>')">❤</button> <!-- This should be styled to look like the heart icon -->
+          </div>
+      </div>
+    <% end %>
+</div>

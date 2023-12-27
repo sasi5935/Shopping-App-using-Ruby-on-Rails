@@ -1,0 +1,34 @@
+# == Schema Information
+#
+# Table name: cart_items
+#
+#  id         :bigint           not null, primary key
+#  fabric     :string
+#  firmness   :string
+#  image_url  :string
+#  quantity   :integer
+#  size       :string
+#  stuffing   :string
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
+#  cart_id    :integer
+#  cushion_id :integer
+#
+
+one:
+  cushion_id: 1
+  cart_id: 1
+  quantity: 1
+  size: MyString
+  fabric: MyString
+  firmness: MyString
+  stuffing: MyString
+
+two:
+  cushion_id: 1
+  cart_id: 1
+  quantity: 1
+  size: MyString
+  fabric: MyString
+  firmness: MyString
+  stuffing: MyString

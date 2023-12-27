@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emoji Storytelling</title>
+   
+</head>
+<body>
+
+<h1>Emoji Storytelling</h1>
+
+<%= link_to 'Back', home_path, class: "back-btn" %>
+
+<!-- New Story Link -->
+<p class="new-story-link">
+    <%= link_to 'New Story', new_story_path, class: 'button' %>
+</p>
+
+
+
+<!-- Stories List -->
+<ul class="story-list">
+    <% @stories.each do |story| %>
+        <li class="story-item">
+            <div class="story-header">
+                <strong>Story:</strong> <%= truncate(story.title, length: 50) %>
+                
+            </div>
+
+            <p class="story-content"><%= story.content %></p>
+
+            <div class="story-actions">
+                <% if story.user == current_user %>
+                    <%= button_to 'Edit', edit_story_path(story), method: :get, class: "button" %>
+                    <%= button_to 'Delete', story_path(story), method: :delete, data: { confirm: 'Are you sure?' }, class: "button" %>
+                <% end %>
+            </div>
+
+            <div id="comments-section">
+                <h3>Comments:</h3>
+                <div id="comments">
+                    <% story.comments.each do |comment| %>
+                    <p class="comment" id="comment-<%= comment.id %>"><%= comment.body %> - <%= comment.user.email %></p>
+                    <% end %>
+                </div>
+            </div>
+
+                <!-- Comment Form -->
+            <%= form_for [story, Comment.new], remote: true, html: { class: 'comment-form', id: 'new_comment' } do |f| %>
+                <p>
+                    
+                    <%= f.text_area :body, class: 'text-area' %>
+                </p>
+                <p>
+                    <%= f.submit 'Post Comment', class: 'button' %>
+                </p>
+            <% end %>
+
+            <div class="like-buttons">
+                <% if current_user %>
+                    <% if story.likes.find_by(user_id: current_user.id) %>
+                        <%= button_to 'Unlike', unlike_story_path(story), method: :delete, class: "button unlike-button" %>
+                    <% else %>
+                        <%= button_to 'Like', like_story_path(story), method: :post, class: "button like-button" %>
+                    <% end %>
+                    <p>Likes: <%= story.likes.count %></p>
+                <% end %>
+            </div>
+
+            
+
+             
+
+            
+
+            
+
+
+            <small>by <%= story.user.email %></small>    
+        </li>
+    <% end %>
+</ul>
+
+
+
+</body>
+</html>
+
+<style>
+
+    
+    /* General Body Styling */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        color: #333;
+    }
+
+    /* Header */
+    h1 {
+        text-align: center;
+        color: #4a4a4a;
+    }
+
+    /* Button Styling for Compact Layout */
+    .button {
+        background-color: #008CBA;
+        border: none;
+        color: white;
+        padding: 5px 10px; /* Reduced padding for a more compact layout */
+        text-align: center;
+        text-decoration: none;
+        display: inline-block; /* Display inline for better alignment */
+        font-size: 12px; /* Smaller font size for space efficiency */
+        margin: 2px; /* Reduced margin for a tighter layout */
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #005f73;
+    }
+
+    /* Story List Styling */
+    .story-list {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .story-item {
+        background-color: white;
+        margin: 10px;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .story-header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .story-content {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        line-height: 1.6;
+    }
+
+    /* Comments Section */
+    .comments-section {
+        background-color: #f0f0f0; /* Change the background color */
+        padding: 5px; /* Reduce padding */
+        border-radius: 3px; /* Reduce border-radius */
+        margin-top: 10px; /* Reduce margin-top */
+    }
+
+    .comment {
+        font-style: italic;
+        color: #555;
+    }
+
+    /* Comment Form */
+    .comment-form .text-area {
+        width: 100%;
+        padding: 5px; /* Adjusted padding */
+        border-radius: 4px;
+        border: 1px solid #ddd;
+        margin-bottom: 10px;
+        font-size: 12px; /* Adjusted font size for consistency */
+    }
+
+    /* Align buttons next to each other */
+    .story-actions {
+        display: flex;
+        justify-content: start;
+        gap: 10px; /* Space between buttons */
+    }
+
+    /* Reduce the size of the buttons to make them occupy less space */
+    .story-actions .button {
+        flex: 0 1 auto; /* Allow buttons to shrink */
+    }
+
+    /* Like and Unlike Buttons */
+    .like-buttons {
+        text-align: right;
+        margin-top: 10px;
+    }
+
+    .like-button {
+        background-color: #007bff;
+        color: #fff;
+    }
+
+    .unlike-button {
+        background-color: #dc3545;
+        color: #fff;
+    }
+
+    .unlike-button:hover {
+        background-color: #c74747;
+    }
+
+    .like-button:hover {
+        background-color: #0077b6;
+    }
+
+    /* Small Screen Responsiveness */
+    @media (max-width: 600px) {
+        .button {
+            width: 100%;
+            margin: 5px 0;
+        }
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-bottom: 20px;
+      padding: 10px 15px;
+      background-color: #ddd;
+      color: #333;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+      box-shadow: none;
+      border: none;
+      cursor: pointer;
+    }
+    .back-btn:hover {
+      background-color: #ccc;
+    }
+</style>
+
+<script>
+  // Ensure this script is included in your page or relevant JavaScript asset files
+  $(document).on('turbolinks:load', function() {
+    $('#new_comment').on('ajax:success', function(event) {
+      var detail = event.detail;
+      var data = detail[0], status = detail[1], xhr = detail[2];
+      $('#comments').append(data.comment_html);
+      $('#new_comment')[0].reset();
+    }).on('ajax:error', function(event) {
+      var detail = event.detail;
+      var xhr = detail[2], status = detail[1], error = detail[0];
+      // Handle the error, maybe show a message to the user
+    });
+  });
+</script>
